@@ -20,11 +20,19 @@ jobs:
             - name: Say hello world
               run: echo "hello world"
     
-    job-number-2:
+    job-parallel:
       runs-on: macos-latest
       steps:
           - name: show mac details
             run: sw_vers  # macos specific commands
+    
+    job-dependent:
+      runs-on: windows-latest
+      needs: run-shell-commands
+      steps:
+          - name: echo a string
+            run: Write-Output "Windows VM" # windows specific commands
+          
         
 
       
