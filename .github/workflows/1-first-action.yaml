@@ -15,3 +15,6 @@ jobs:
 
             - name: Check the system details
               run: hostnamectl
+            
+            - name: Say hello world
+              run: hello world
