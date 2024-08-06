@@ -30,3 +30,4 @@ git remote set-url origin https://<your-token>@github.com/adesinna/githubactions
 git add .
 git commit 
 
+if your commit message have this [skip ci], it skips the actions
