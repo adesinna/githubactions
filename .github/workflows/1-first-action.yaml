@@ -1,6 +1,7 @@
 name: First Workflow
 on: [push]
 
+
 jobs:
     run-shell-commands:
         runs-on: ubuntu-latest
@@ -18,3 +19,12 @@ jobs:
             
             - name: Say hello world
               run: echo "hello world"
+    
+    job-number-2:
+      runs-on: macos-latest
+      steps:
+          - name: show mac details
+            run: sw_vers  # macos specific commands
+        
+
+      

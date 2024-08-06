@@ -22,3 +22,11 @@ Types of runner machines(VMs)
 - GitHub hosted runners
 - Self hosted runners
 - Larger Runners (Hosted by GitHub)
+
+
+In the root folder create .github/worflows/  folder
+To be able to push
+git remote set-url origin https://<your-token>@github.com/adesinna/githubactions.git
+git add .
+git commit 
+
