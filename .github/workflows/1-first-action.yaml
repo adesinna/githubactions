@@ -17,4 +17,4 @@ jobs:
               run: hostnamectl
             
             - name: Say hello world
-              run: hello world
+              run: echo "hello world"
