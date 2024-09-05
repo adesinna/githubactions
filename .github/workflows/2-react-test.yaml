@@ -25,3 +25,10 @@ jobs:
       - name: Run build
         run: npm run build
         working-directory: ./movie-blog-frontend # Point to the correct directory where the repo was cloned
+  deploy:
+    needs: test-job  # run this job after the test job
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: deploying to server
+          run: echo "deployig"
