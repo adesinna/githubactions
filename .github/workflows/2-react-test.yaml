@@ -19,7 +19,7 @@ jobs:
           node-version: '16'  # Set to the version of Node.js you're using
 
       - name: Install dependencies
-        run: npm insstall
+        run: npm install
         working-directory: ./movie-blog-frontend  # Point to the correct directory where the repo was cloned
 
       - name: Run build
