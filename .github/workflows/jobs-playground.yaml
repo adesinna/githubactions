@@ -1,0 +1,13 @@
+name: event workflow
+on: push  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+        - name: print author
+          run: echo "Mrs Adesina Tolani Adeola"
+
+
+        - name: print env on actions using json
+          run: echo "${{ toJSON(github) }}" 
