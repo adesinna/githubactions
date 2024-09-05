@@ -1,6 +1,6 @@
 name: first workflow  # The name of the workflow
-
-on: push  # This is the event that triggers the workflow
+on: workflow_dispatch
+# on: push  # This is the event that triggers the workflow
 
 jobs:
   first-job:

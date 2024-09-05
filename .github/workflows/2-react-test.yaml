@@ -1,6 +1,6 @@
 name: react test workflow
-
-on: push
+on: workflow_dispatch
+# on: push  # [] for mutilple events
 
 jobs:
   test-job:
@@ -31,4 +31,10 @@ jobs:
 
     steps:
         - name: deploying to server
-          run: echo "deployig"
+          run: echo "deploying"
+        
+        - name: print env on actions
+          run: echo "${{ github }}" # this is a githubaction based env
+
+        - name: print env on actions using json
+          run: echo "${{ toJSON(github) }}" # this is a githubaction based env
