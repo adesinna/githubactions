@@ -1,0 +1,27 @@
+name: react test workflow
+
+on: push
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest  
+    
+    steps:
+      - name: Check out the code from another repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'adesinna/movie-blog-frontend'  # Specify the repository owner/repo-name
+          path: movie-blog-frontend  # his is the path on the runner where the repo will be cloned
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Set to the version of Node.js you're using
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./movie-blog-frontend  # Point to the correct directory where the repo was cloned
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./movie-blog-frontend # Point to the correct directory where the repo was cloned
