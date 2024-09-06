@@ -26,6 +26,13 @@ jobs:
         run: npm run test
         working-directory: ./work  # Ensure npm runs in the correct directory
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+            name: node-artifact
+            path: |
+                dist
+                package.json 
   build:
     needs: test
     runs-on: ubuntu-latest
