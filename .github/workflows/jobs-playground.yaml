@@ -45,6 +45,8 @@ jobs:
     needs: test_and_build
     runs-on: ubuntu-latest
     steps:
+      - name: list
+        run: pwd && ls
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
