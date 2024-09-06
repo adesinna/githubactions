@@ -14,6 +14,11 @@ jobs:
           repository: 'adesinna/Action_test'  # Specify the repository owner/repo-name
           path: work  # this is the path on the runner where the repo will be cloned
 
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify Node.js 20
+
       - name: Install dependencies
         run: npm install
         working-directory: ./work  # Ensure npm runs in the correct directory
@@ -33,6 +38,7 @@ jobs:
             path: |
                 ./work/dist
                 ./work/package.json 
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -42,6 +48,11 @@ jobs:
         with:
           repository: 'adesinna/Action_test'
           path: work  # Ensure the same path is used here as well
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Specify Node.js 20
 
       - name: Install dependencies
         run: npm install
