@@ -11,31 +11,35 @@ jobs:
       - name: Check out the code from another repo
         uses: actions/checkout@v4
         with:
-          repository: 'adesinna/Action_test'  # Specify the repository owner/repo-name
-          path: work  # this is the path on the runner where the repo will be cloned
+          repository: 'adesinna/Action_test'
+          path: work
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # Specify Node.js 20
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./work  # Ensure npm runs in the correct directory
+        working-directory: ./work
 
       - name: Lint code
         run: npm run lint
-        working-directory: ./work  # Ensure npm runs in the correct directory
+        working-directory: ./work
 
       - name: Test code
         run: npm run test
-        working-directory: ./work  # Ensure npm runs in the correct directory
+        working-directory: ./work
+
+      - name: Build the project
+        run: npm run build  # Ensure there's a build script in package.json
+        working-directory: ./work
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: node-artifact
-          path: ./work/dist  # Specify the correct path to the built files
+          path: ./work/dist  # Adjust path if needed
 
   deploy:
     needs: test_and_build
@@ -44,10 +48,10 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
-          name: node-artifact   # name of artifact
+          name: node-artifact
 
       - name: Output artifact content
-        run: ls 
+        run: ls
 
       - name: Deploy
         run: echo "Deploying..."
