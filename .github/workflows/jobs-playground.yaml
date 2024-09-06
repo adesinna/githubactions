@@ -32,7 +32,7 @@ jobs:
           repository: 'adesinna/Action_test'  
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         
       - name: Build website
         run: npm run build
