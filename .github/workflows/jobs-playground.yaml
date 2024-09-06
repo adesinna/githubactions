@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,13 +16,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        
+        working-directory: ./work  # Ensure npm runs in the correct directory
+
       - name: Lint code
         run: npm run lint
-        
+        working-directory: ./work  # Ensure npm runs in the correct directory
+
       - name: Test code
         run: npm run test
-        
+        working-directory: ./work  # Ensure npm runs in the correct directory
+
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -29,13 +33,17 @@ jobs:
       - name: Check out the code from another repo
         uses: actions/checkout@v3
         with:
-          repository: 'adesinna/Action_test'  
+          repository: 'adesinna/Action_test'
+          path: work  # Ensure the same path is used here as well
 
       - name: Install dependencies
         run: npm install
-        
+        working-directory: ./work
+
       - name: Build website
         run: npm run build
+        working-directory: ./work
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
