@@ -1,13 +1,16 @@
 name: event workflow
-on: push  
+on:
+  pull_request:
+    types: [closed] # 'closed' is the correct event type
+  branches:
+    - main  # The pull request should target the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-        - name: print author
-          run: echo "Mrs Adesina Tolani Adeola"
+      - name: print author
+        run: echo "Mrs Adesina Tolani Adeola"
 
-
-        - name: print env on actions using json
-          run: echo "${{ toJSON(github) }}" 
+      - name: print env on actions using json
+        run: echo "${{ toJSON(github) }}"
