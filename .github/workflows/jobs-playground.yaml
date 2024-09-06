@@ -53,7 +53,7 @@ jobs:
           name: node-artifact
 
       - name: Output artifact content
-        run: ls
+        run: pwd && ls
 
       - name: Deploy
         run: echo "Deploying..."
