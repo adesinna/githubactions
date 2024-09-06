@@ -29,8 +29,7 @@ jobs:
       - name: Check out the code from another repo
         uses: actions/checkout@v3
         with:
-          repository: 'adesinna/Action_test'  # Specify the repository owner/repo-name
-          path: work  # this is the path on the runner where the repo will be cloned
+          repository: 'adesinna/Action_test'  
 
       - name: Install dependencies
         run: npm ci
