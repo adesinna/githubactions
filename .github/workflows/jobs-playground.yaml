@@ -1,16 +1,45 @@
-name: event workflow
+name: Deploy website
 on:
-  pull_request:
-    types: [closed] # 'closed' is the correct event type
-  branches:
-    - main  # The pull request should target the main branch
-
+  push:
+    branches:
+      - main
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: print author
-        run: echo "Mrs Adesina Tolani Adeola"
+      - name: Check out the code from another repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'adesinna/Action_test'  # Specify the repository owner/repo-name
+          path: work  # this is the path on the runner where the repo will be cloned
 
-      - name: print env on actions using json
-        run: echo "${{ toJSON(github) }}"
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint code
+        run: npm run lint
+        
+      - name: Test code
+        run: npm run test
+        
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code from another repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'adesinna/Action_test'  # Specify the repository owner/repo-name
+          path: work  # this is the path on the runner where the repo will be cloned
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build website
+        run: npm run build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo "Deploying..."
