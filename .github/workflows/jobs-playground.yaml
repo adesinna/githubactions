@@ -31,8 +31,8 @@ jobs:
         with:
             name: node-artifact
             path: |
-                dist
-                package.json 
+                ./work/dist
+                ./work/package.json 
   build:
     needs: test
     runs-on: ubuntu-latest
