@@ -1,3 +1,4 @@
+# action and code are in the same repo
 name: Deploy website
 on:
   push:
@@ -22,9 +23,10 @@ jobs:
         with:
           path: ./node_modules  # Cache the 'node_modules' directory from the current directory
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Generate cache key based on OS and package-lock.json hash
-          restore-keys: |
-            ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
-
+          restore-keys: 
+            - ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
+            
+           
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'  # Run 'npm install' only if the cache was not hit
         run: npm install  # Install dependencies from the current directory
