@@ -7,6 +7,8 @@ on:
 jobs:
   test_and_build:
     runs-on: ubuntu-latest
+    outputs: 
+        script-file: ${{ steps.publisher.outputs.script-file }}
     steps:
       - name: Check out the code from another repo
         uses: actions/checkout@v4
@@ -34,12 +36,16 @@ jobs:
       - name: Build the project
         run: npm run build  # Ensure there's a build script in package.json
         working-directory: ./work
+    # output step
+      - name: output js file
+        id: publisher
+        run: find  dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: node-artifact
-          path: ./work/dist  
+          path: ./work/dist  # dist shows up when the building is done
 
   deploy:
     needs: test_and_build
@@ -52,6 +58,9 @@ jobs:
 
       - name: Output artifact content
         run: pwd && ls
-
+      
+      - name: Output referencing
+        run: echo "${{ needs.test_and_build.outputs.script-file }}" # to use the output from the other job
+ 
       - name: Deploy
         run: echo "Deploying..."
