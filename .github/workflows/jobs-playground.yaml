@@ -5,10 +5,8 @@ on:
       - main
 
 jobs:
-  test_and_build:
+  test:
     runs-on: ubuntu-latest
-    outputs: 
-        script-file: ${{ steps.publisher.outputs.script-file }}
     steps:
       - name: Check out the code from another repo
         uses: actions/checkout@v4
@@ -33,11 +31,32 @@ jobs:
         run: npm run test
         working-directory: ./work
 
+  build:
+    needs: test  # Ensures that build runs only after test job passes
+    runs-on: ubuntu-latest
+    outputs: 
+      script-file: ${{ steps.publisher.outputs.script-file }}
+    steps:
+      - name: Check out the code from another repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'adesinna/Action_test'
+          path: work
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./work
+
       - name: Build the project
         run: npm run build  # Ensure there's a build script in package.json
         working-directory: ./work
-    # output step
-      - name: output js file
+
+      - name: Output js file
         id: publisher
         run: find  ./work/dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
 
@@ -48,7 +67,7 @@ jobs:
           path: ./work/dist  # dist shows up when the building is done
 
   deploy:
-    needs: test_and_build
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifacts
@@ -60,7 +79,7 @@ jobs:
         run: pwd && ls
       
       - name: Output referencing
-        run: echo "${{ needs.test_and_build.outputs.script-file }}" # to use the output from the other job
+        run: echo "${{ needs.build.outputs.script-file }}" # Using output from build job
  
       - name: Deploy
         run: echo "Deploying..."
