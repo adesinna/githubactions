@@ -23,10 +23,10 @@ jobs:
         with:
           path: ./node_modules  # Cache the 'node_modules' directory from the current directory
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Generate cache key based on OS and package-lock.json hash
-          restore-keys: 
-            - ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
-            
-           
+          restore-keys: |
+            ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
+
+
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'  # Run 'npm install' only if the cache was not hit
         run: npm install  # Install dependencies from the current directory
@@ -35,7 +35,16 @@ jobs:
         run: npm run lint  # Run the linting step
 
       - name: Test code
+        id: run-test # to be able to reference this step 
         run: npm run test  # Run the tests
+
+      - name: test result 
+        if: steps.run-test.outcome == 'failure' 
+        uses: actions/upload-artifact@v3
+        with:
+            name: test-report
+            path: test.json
+       
 
   build:
     needs: test  # This ensures the 'build' job runs only after the 'test' job succeeds
