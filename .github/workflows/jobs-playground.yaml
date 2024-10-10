@@ -12,3 +12,7 @@ jobs:
 
       - name: print the lscpu  # Second step to display CPU architecture details
         run: lscpu
+      
+      - name: print the os  # Second step to display CPU architecture details
+        run: cat /etc/os-release
+
