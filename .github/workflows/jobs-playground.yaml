@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v3
         id: cache-node-modules  # Give the cache step an ID so it can be referenced later
         with:
-          path: ./node_modules  # Cache the 'node_modules' directory from the current directory
+          path: ./ # Cache the 'node_modules' directory from the current directory
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}  # Generate cache key based on OS and package-lock.json hash
           restore-keys: |
             ${{ runner.os }}-node-  # Use a fallback key if an exact cache match is not found
