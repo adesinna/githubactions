@@ -10,5 +10,3 @@ jobs:
       - name: print greeting  # First step to print a greeting message
         run: echo "Hello World"
 
-      - name: print the lscpu  # Second step to display CPU architecture details
-        run: lscpu
