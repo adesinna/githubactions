@@ -39,9 +39,8 @@ jobs:
         with:
           name: artifacts-frontend # any name of your choice
           path: |
-            artifact-folder
-            package.json
-
+            dist  # it would generate a folder called dist
+           
 
           
       
