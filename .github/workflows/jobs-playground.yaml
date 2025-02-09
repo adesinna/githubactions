@@ -1,14 +1,41 @@
-name: first workflow  # The name of the workflow
-on: workflow_dispatch
-# on: push  # This is the event that triggers the workflow
-
+name: Test Project
+on:
+  push:
+    branches:
+      - 'main'
 jobs:
-  first-job:
-    runs-on: ubuntu-latest  # Specifies the environment (Ubuntu) for this job
-
+  test:
+    runs-on: ubuntu-latest
     steps:
-      - name: print greeting  # First step to print a greeting message
-        run: echo "Hello World"
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint Code
+        run: npm run lint
+      - name: Test Code
+        run: npm run test
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Code
+        run: npm run build
 
-      - name: print the lscpu  # Second step to display CPU architecture details
-        run: lscpu
+
+          
+      
+
