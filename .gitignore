@@ -1,0 +1,42 @@
+# Node.js dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+coverage/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*.local
+
+# IDEs
+.idea/          # IntelliJ IDEA / PyCharm
+*.iml
+*.iws
+.vscode/
+
+# Custom directory
+DStore/
+
+# Optional: lock files (depending on your package manager)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
