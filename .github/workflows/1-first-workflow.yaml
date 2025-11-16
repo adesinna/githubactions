@@ -1,67 +1,75 @@
-name: CI/CD
+name: Website Deployment
 on:
   push:
     branches:
-      - 'main'
-
-env: # workflow level env
-  MONGODB_DB_NAME: gha-demo
-
+      - main
 jobs:
-  test:
-    env:  # job level envs
-      MONGODB_CLUSTER_ADDRESS: shanana
-      MONGODB_USERNAME: test
-      MONGODB_PASSWORD:  password
-      PORT: 3701
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Get code
         uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Cache Dependencies # comes before the install dependencies steps
+      - name: Cache dependencies
+        id: cache
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}  #used to retrieve
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Output ENV
-        run: |
-          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME}}"
-
-  deploy:
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint code
+        run: npm run lint
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
         with:
-          node-version: 20
-
-      - name: Download Artifact from previous job
-        uses: actions/download-artifact@v5
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Test code
+        run: npm run test
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
         with:
-          name: dist-files # name from the previous job
-
-      - name: Display the text file
-        run: |
-          echo "Version from build job: ${{ needs.build.outputs.version }}" # reference it from previous jov
-          ls -la     # note that the dist folder is not copied just the content so ls -la ./dist wont work
-
-      - name: Output ENV
-        run: |
-          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME}}"
-          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME}}"
-
-          
-
-
-    
-
+          name: test-report
+          path: test.json
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build website
+        id: build-website
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+      - name: Output contents
+        run: ls
+      - name: Deploy
+        run: echo "Deploying..."
