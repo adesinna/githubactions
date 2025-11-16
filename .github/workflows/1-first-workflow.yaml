@@ -37,9 +37,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Download Artifact from previous job
         uses: actions/download-artifact@v5
         with:
