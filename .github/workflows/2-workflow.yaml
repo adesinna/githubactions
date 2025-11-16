@@ -35,7 +35,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'  # if there is not cache hit
         run: npm install
       - name: Test code
-        continue-on-error: true
+        continue-on-error: true  # treats the job as success if tho this step failed
         id: test-step
         run: npm run test
       - name: Upload test report
