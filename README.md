@@ -1,1 +1,0 @@
-A new comprehensive git actions course for THINKIFIC 

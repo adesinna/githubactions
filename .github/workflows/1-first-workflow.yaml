@@ -11,52 +11,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: print env on actions using json
-        run: |
-          echo "${{ toJSON(github) }}" > show.txt
-          
-      - name: upload artifact  # upload this file so the next job can use it
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Website
+        run: npm run build   # this will generate a file called dist
+
+      - name: Upload Artifact       # upload this file so the next job can use it
         uses: actions/upload-artifact@v4
         with:
-          name: my text file # name that must be used in the next job
-          path: ./show.txt
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+          name: dist-files   # the website file what was generated in the npm build
+          path: dist
 
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
-
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Download Artifact from previous job
-        uses: actions/download-artifact@v5
-        with:
-          name: my text file  # name from the previous job
-
-      - name: Display the text file
-        run: |
-            cat show.txt
-        
