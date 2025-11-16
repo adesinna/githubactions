@@ -30,6 +30,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.publish-version.outputs.VERSION_NUMBER }}  # the id is version
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -44,6 +46,16 @@ jobs:
 
       - name: Build Website
         run: npm run build   # this will generate a file called dist
+
+      - name: Generate version tag
+        id: publish-version
+        run: |
+          VERSION_NUMBER="v$GITHUB_RUN_NUMBER"
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT # this makes it available as a job output
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV  # this makes it available in other steps in the same job
+
+      - name: Echo version
+        run: echo "version is ${{ steps.publish-version.outputs.VERSION_NUMBER }}"
 
       - name: Upload Artifact       # upload this file so the next job can use it
         uses: actions/upload-artifact@v4
@@ -67,7 +79,8 @@ jobs:
 
       - name: Display the text file
         run: |
-          ls -la     # note that the dist folder is not copied just the content so ls -la ./dist wont worl
+          echo "Version from build job: ${{ needs.build.outputs.version }}" # reference it from previous jov
+          ls -la     # note that the dist folder is not copied just the content so ls -la ./dist wont work
 
-
+    
 
