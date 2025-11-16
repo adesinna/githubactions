@@ -37,10 +37,8 @@ jobs:
         run: |
           echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME}}"
 
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Set up Node.js
         uses: actions/setup-node@v4
