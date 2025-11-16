@@ -1,1 +1,1 @@
-My first test
+A new comprehensive git actions course for THINKIFIC 
