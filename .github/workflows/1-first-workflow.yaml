@@ -106,5 +106,13 @@ jobs:
           echo "Version from build job: ${{ needs.build.outputs.version }}" # reference it from previous jov
           ls -la     # note that the dist folder is not copied just the content so ls -la ./dist wont work
 
+      - name: Output ENV
+        run: |
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME}}"
+          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME}}"
+
+          
+
+
     
 
