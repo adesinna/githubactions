@@ -81,5 +81,12 @@ jobs:
     needs: [lint, deploy]
     runs-on: ubuntu-latest
     steps:
-      - name: Output Name
-        run: echo "Worked"
+      - name: Get build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test-report
+      - name: Deploy
+        run: |
+          cat test.json
+          
+          
