@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="63bcb0e3-309f-4334-a893-c0a82329b6dd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.github/workflows/1-first-workflow.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/1-first-workflow.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +35,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/user/Desktop/githubactions"
+    "last_opened_file_path": "/Users/user/Desktop/githubactions",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
