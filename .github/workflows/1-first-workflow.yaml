@@ -38,49 +38,6 @@ jobs:
           echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME}}"
 
 
-
-  build:
-    needs: test
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.publish-version.outputs.VERSION_NUMBER }}  # the id is version
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Cache Dependencies # comes before the install dependencies steps
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}  #used to retrieve
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Website
-        run: npm run build   # this will generate a file called dist
-
-      - name: Generate version tag
-        id: publish-version
-        run: |
-          VERSION_NUMBER="v$GITHUB_RUN_NUMBER"
-          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT # this makes it available as a job output
-          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV  # this makes it available in other steps in the same job
-
-      - name: Echo version
-        run: echo "version is ${{ steps.publish-version.outputs.VERSION_NUMBER }}"
-
-      - name: Upload Artifact       # upload this file so the next job can use it
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-files   # the website files in a dir called dist what was generated in the npm build
-          path: dist
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
