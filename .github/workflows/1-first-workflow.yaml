@@ -1,20 +1,46 @@
-name: My test workflow
-on: push
+name: CI/CD
+on:
+  push:
+    branches:
+      - 'main'
 
 jobs:
-    first_job:
-        runs-on: ubuntu-latest
-        steps:
-        - name: Checkout Repo
-          uses: actions/checkout@v5
-        
-        - name: Welcome Message
-          run: echo "Welcome to new actions"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-        - name: List all the files
-          run: ls -la
+      - name: print env on actions using json
+        run: echo "${{ toJSON(github) }}"
 
-        - name: README FILE
-          run: cat README.md
-        
-        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
