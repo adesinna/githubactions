@@ -25,7 +25,32 @@ jobs:
       - name: Upload Artifact       # upload this file so the next job can use it
         uses: actions/upload-artifact@v4
         with:
-          name: dist-files   # the website file what was generated in the npm build
+          name: dist-files   # the website files in a dir called dist what was generated in the npm build
           path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download Artifact from previous job
+        uses: actions/download-artifact@v5
+        with:
+          name: dist-files # name from the previous job
+
+      - name: Display the text file
+        run: |
+          ls -la ./dist
+
 
 
