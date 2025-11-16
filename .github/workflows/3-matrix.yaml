@@ -8,9 +8,12 @@ jobs:
       matrix:
         node-version: [12, 14, 16]
         os: [ubuntu-latest, windows-latest]
-        include:
+        include: # standalone combinations
           - node-version: 18
             os: ubuntu-latest
+        exclude: # standalone combinations to be excluded
+          - node-version: 12
+            os: windows-latest
     runs-on: ${{ matrix.os }}
     steps:
       - name: Get Code
