@@ -33,8 +33,10 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Test code
+        id: test-step
         run: npm run test
       - name: Upload test report
+        if: failure() && steps.test-step.outcome == 'failure'  # failure() means at least one of the steps failed
         uses: actions/upload-artifact@v3
         with:
           name: test-report
