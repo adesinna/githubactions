@@ -50,7 +50,7 @@ jobs:
 
       - name: Display the text file
         run: |
-          ls -la ./dist
+          ls -la     # note that the dist folder is not copied just the content so ls -la ./dist wont worl
 
 
 
