@@ -64,3 +64,16 @@ jobs:
         with:
           name: test-report
           path: test.json
+
+  report:
+    if: failure()           # if any other job fails run
+    needs: [ lint, unit-testing ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test-report
+      - name: Deploy
+        run: |
+          cat test.json
