@@ -56,6 +56,7 @@ jobs:
         run: npm install
 
       - name: Unit Testing
+        id: test-step
         run: npm test
 
       - name: Upload test report
